@@ -2,11 +2,13 @@
     "tervetuliaisviestiosa1" : "Täällä on PakohuoneBot. Valvon teitä ja suoriutumistanne langattomasti.",
     "tervetuliaisviestiosa2" : "Voin auttaa teitä.. Minulta voitte tiedustella asioita oikeiden koodisanojen avulla.",
     "20094029": "Ahaa, olette selvittäneet vanhan Dixit-mysteerin. Hyvin tehty. Huomaan sensoreistani, että huoneen lämpötila on kohonnut samalla.",
-    "ludviginBordellilinnat" : "Hmm olette todellakin eteviä linnanrakentajia. Harmi vain, että unohditte joki-lisärin....",
+    "ludviginbordellilinnat" : "Hmm olette todellakin eteviä linnanrakentajia. Harmi vain, että unohditte joki-lisärin....",
     "vituiksmanviestit" : [
         "En ymmärrä hölkäsen pöläystä tuosta.",
         "Lopeta turha spämmiminen",
         "Tapan sut.",
         "Mietittekö yhtään ennen ku kirjotitte?"
-    ]
+    ],
+    "liikaasanoja": "Älä edes yritä lähettää yli viittä sanaa kerralla. Eka varotus.",
+    "spammiviesti": "Älä edes yritä lähettää yli viittä sanaa kerralla. Eka varotus."
 }

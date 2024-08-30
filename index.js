@@ -6,7 +6,7 @@ import fs from 'node:fs'
 const bot = new Telegraf(process.env.BOT_TOKEN)
 
 function parseMessage(text) {
-  return text.split(" ");
+  return text.toLowerCase().split(" ");
 }
 
 // Luetaan koodisanat ja niiden merkitykset
@@ -46,6 +46,13 @@ bot.on(message('text'), async (ctx) => {
   // Katsotaan, onko viestillä mitään merkitystä.
   const avainsanat = parseMessage(message);
   console.log(avainsanat);
+
+  // Estetään liian monen avainsanan yrittäminen kerralla
+  if (avainsanat.length > 5) {
+    await ctx.reply(vihjeet.spammiviesti);
+    return;
+  }
+
   let wordFound = false;
 
   avainsanat.forEach(sana => {
@@ -67,22 +74,6 @@ bot.on(message('text'), async (ctx) => {
   
 })
 
-// bot.on('callback_query', async (ctx) => {
-//   // Explicit usage
-//   await ctx.telegram.answerCbQuery(ctx.callbackQuery.id)
-
-//   // Using context shortcut
-//   await ctx.answerCbQuery()
-// })
-
-// bot.on('inline_query', async (ctx) => {
-//   const result = []
-//   // Explicit usage
-//   await ctx.telegram.answerInlineQuery(ctx.inlineQuery.id, result)
-
-//   // Using context shortcut
-//   await ctx.answerInlineQuery(result)
-// })
 
 bot.launch()
 
