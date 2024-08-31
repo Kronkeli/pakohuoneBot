@@ -10,22 +10,29 @@ function parseMessage(text) {
 }
 
 // Luetaan koodisanat ja niiden merkitykset
-const tiedostoRaw = fs.readFileSync('viestit.json', 'utf-8', (err, data) => {
+const tiedostoRaw = (tiedostonimi) => {
+  return fs.readFileSync(tiedostonimi, 'utf-8', (err, data) => {
   if (err) {
     console.error(err);
     return "";
   }
   return data;
-});
+})};
 
-const vihjeet = JSON.parse(tiedostoRaw)
+
+// Vihjesanojen haku tiedostosta
+const vihjeet = JSON.parse(tiedostoRaw('viestit.json'));
 const vihjesanat = Object.keys(vihjeet);
 console.log(vihjesanat);
 
 const virheviestit = vihjeet.vituiksmanviestit;
 const virheviestienLkm = virheviestit.length;
 
-// console.log(koodisanat.ludviginBordellilinnat);
+// Vihjekuvien (tiedostonimien) haku tiedostosta
+const kuvavihjeet = JSON.parse(tiedostoRaw('kuvaviestit.json'));
+const kuvavihjesanat = Object.keys(kuvavihjeet);
+console.log(kuvavihjesanat);
+
 
 bot.command('kukasiellaon', async (ctx) => {
   // Using context shortcut
@@ -35,6 +42,11 @@ bot.command('kukasiellaon', async (ctx) => {
 
   // Using context shortcut
   await ctx.reply(vihjeet.tervetuliaisviestiosa2)
+
+  await new Promise(r => setTimeout(r, 5000));
+
+  // Using context shortcut
+  await ctx.reply(vihjeet.tervetuliaisviestiosa3)
 
 })
 
@@ -49,12 +61,13 @@ bot.on(message('text'), async (ctx) => {
 
   // Estetään liian monen avainsanan yrittäminen kerralla
   if (avainsanat.length > 5) {
-    await ctx.reply(vihjeet.spammiviesti);
+    await ctx.reply(vihjeet.liikaasanoja);
     return;
   }
 
   let wordFound = false;
 
+  // Tarkistetaan, antaako vihjesana vihjeen
   avainsanat.forEach(sana => {
     if (vihjeet[sana] != undefined) {
       // console.log(`OOSUMA LÖYTYI! Nimittäin teksti \n${vihjeet[sana]}`)
@@ -63,7 +76,23 @@ bot.on(message('text'), async (ctx) => {
       wordFound = true;
     }
     else {
-      // console.log(`Ei täsmää sana ${sana}`)
+      console.log(`Ei täsmää sanavihjeistä sana ${sana}`)
+    };
+  });
+
+  await new Promise(r => setTimeout(r, 5000));
+
+  // Tarkistetaan, antaako vihjesana kuvavihjeen
+  avainsanat.forEach(sana => {
+    if (kuvavihjeet[sana] != undefined) {
+      console.log(`OOSUMA LÖYTYI! Nimittäin teksti \n${kuvavihjeet[sana]}`)
+      // Using context shortcut
+      // ctx.reply(kuvavihjeet[sana])
+      ctx.replyWithPhoto({source: kuvavihjeet[sana]})
+      wordFound = true;
+    }
+    else {
+      console.log(`Ei täsmää kuvavihjeistä sana ${sana}`)
     };
   });
 
